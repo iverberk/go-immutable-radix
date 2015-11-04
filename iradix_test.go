@@ -497,6 +497,7 @@ func TestNotifyMutate_SeekPrefixWatch(t *testing.T) {
 	txn.NotifyMutate(true)
 	txn.Insert([]byte("foobarbaz"), nil)
 	r = txn.Commit()
+	txn.Notify()
 
 	// Verify root and parent triggered, not leaf affected
 	select {
@@ -542,6 +543,7 @@ func TestNotifyMutate_SeekPrefixWatch(t *testing.T) {
 	txn.NotifyMutate(true)
 	txn.Delete([]byte("foobarbaz"))
 	r = txn.Commit()
+	txn.Notify()
 
 	// Verify root and parent triggered, not leaf affected
 	select {
@@ -616,6 +618,7 @@ func TestNotifyMutate_GetWatch(t *testing.T) {
 	txn.NotifyMutate(true)
 	txn.Insert([]byte("foobarbaz"), nil)
 	r = txn.Commit()
+	txn.Notify()
 
 	// Verify root and parent triggered, not leaf affected
 	select {
@@ -655,6 +658,7 @@ func TestNotifyMutate_GetWatch(t *testing.T) {
 	txn.NotifyMutate(true)
 	txn.Insert([]byte("foobar"), nil)
 	r = txn.Commit()
+	txn.Notify()
 
 	select {
 	case <-rootWatch:
@@ -701,6 +705,7 @@ func TestNotifyMutate_GetWatch(t *testing.T) {
 	txn.NotifyMutate(true)
 	txn.Delete([]byte("foobarbaz"))
 	r = txn.Commit()
+	txn.Notify()
 
 	// Verify root and parent triggered, not leaf affected
 	select {
@@ -740,6 +745,7 @@ func TestNotifyMutate_GetWatch(t *testing.T) {
 	txn.NotifyMutate(true)
 	txn.Delete([]byte("foobar"))
 	r = txn.Commit()
+	txn.Notify()
 
 	select {
 	case <-rootWatch:
