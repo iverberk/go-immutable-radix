@@ -9,8 +9,16 @@ type Iterator struct {
 	stack []edges
 }
 
-// SeekPrefix is used to seek the iterator to a given prefix
+// SeekPrefix is used to seek the iterator to a given prefix. By default
+// it will only return an exact match.
 func (i *Iterator) SeekPrefix(prefix []byte) {
+	i.SeekByPrefix(prefix, false)
+}
+
+// SeekPrefix is used to seek the iterator to a given prefix. Use exactMatch
+// to specify if you only want an exact match of the prefix or a set that matches
+// the common prefix.
+func (i *Iterator) SearchByPrefix(prefix []byte, exactMatch bool) {
 	// Wipe the stack
 	i.stack = nil
 	n := i.node
@@ -37,7 +45,11 @@ func (i *Iterator) SeekPrefix(prefix []byte) {
 			i.node = n
 			return
 		} else {
-			i.node = nil
+			if !exactMatch {
+				i.node = n
+			} else {
+				i.node = nil
+			}
 			return
 		}
 	}
