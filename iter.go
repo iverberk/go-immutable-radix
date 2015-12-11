@@ -12,7 +12,7 @@ type Iterator struct {
 // SeekPrefix is used to seek the iterator to a given prefix. By default
 // it will only return an exact match.
 func (i *Iterator) SeekPrefix(prefix []byte) {
-	i.SeekByPrefix(prefix, false)
+	i.SearchByPrefix(prefix, false)
 }
 
 // SeekPrefix is used to seek the iterator to a given prefix. Use exactMatch
