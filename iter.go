@@ -19,7 +19,7 @@ func (i *Iterator) SeekPartialPrefix(prefix []byte, exactMatch bool) {
 	// Wipe the stack
 	i.stack = nil
 	n := i.node
-	search := prefix
+	search := bytes.Trim(prefix, "\x00")
 	for {
 		// Check for key exhaution
 		if len(search) == 0 {
@@ -43,9 +43,9 @@ func (i *Iterator) SeekPartialPrefix(prefix []byte, exactMatch bool) {
 			return
 		} else {
 			i.node = nil
-			// Return the current node in case were are not looking for an
+			// Return the current node in case we are not looking for an
 			// exact match.
-			if !exactMatch && bytes.HasPrefix(n.prefix, bytes.Trim(search, "\x00")) {
+			if !exactMatch && bytes.HasPrefix(n.prefix, search) {
 				i.node = n
 			}
 			return
